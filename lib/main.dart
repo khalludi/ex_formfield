@@ -1,3 +1,5 @@
+import 'package:ex_formfield/reorderable_ff.dart';
+import 'package:ex_formfield/reorderable_field.dart';
 import 'package:flutter/material.dart';
 
 import 'counter.dart';
@@ -27,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _name = '';
   int _age = 0;
   List _ingredients = [];
+  List _instructions = [];
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +67,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     labelText: 'Ingredients',
                   ),
                   validator: (ingredients) => (ingredients?.length ?? 0) < 3
-                      ? 'Please select at least 3 interests'
+                      ? 'Please add at least 3 ingredients'
                       : null,
                   onSaved: (ingredients) {
                     _ingredients = ingredients!;
                   },
                 ),
+                MyReorderableFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Instructions',
+                  ),
+                  validator: (instructions) => (instructions?.length ?? 0) < 3
+                      ? 'Please add at least 3 steps to the recipe'
+                      : null,
+                  onSaved: (instructions) {
+                    _instructions = instructions!;
+                  },
+                ),
+                SizedBox(height: 10,),
                 RaisedButton(
                   child: const Text('Submit'),
                   onPressed: () {
@@ -88,8 +103,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   itemCount: _ingredients.length,
                   itemBuilder: (context, index) {
-                    return Text('${_ingredients[index]}, ');
+                    return Text('${_ingredients[index]}');
                   }
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _instructions.length,
+                    itemBuilder: (context, index) {
+                      return Text('${_instructions[index]}');
+                    }
                 )
               ],
             ),
